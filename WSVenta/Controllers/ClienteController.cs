@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WSVenta.Models;
@@ -12,6 +13,7 @@ namespace WSVenta.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClienteController : ControllerBase
     {
         [HttpGet]
@@ -22,7 +24,7 @@ namespace WSVenta.Controllers
             {
                 using (VentaRealContext db = new VentaRealContext())
                 {
-                    var lst = db.Cliente.ToList();
+                    var lst = db.Cliente.OrderByDescending(d=>d.Id).ToList();
                     oRespuesta.Exito = 1;
                     oRespuesta.Data = lst;
                 }
